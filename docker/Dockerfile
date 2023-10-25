@@ -1,15 +1,5 @@
 FROM registry.access.redhat.com/ubi9/python-39:1-117.1684741281
 
-# Install MPI
-RUN wget -q http://www.mpich.org/static/downloads/3.1.4/mpich-3.1.4.tar.gz
-RUN tar xfz mpich-3.1.4.tar.gz
-WORKDIR mpich-3.1.4
-RUN ./configure --disable-fortran --enable-fast=all,03 --prefix=/usr
-RUN make -j$(nproc)
-RUN make install
-RUN ldconfig
-WORKDIR /
-
 # Setup environment
 ENV VIRTUAL_ENV=/venv 
 RUN virtualenv --python=python3.8 $VIRTUAL_ENV
