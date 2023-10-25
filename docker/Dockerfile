@@ -4,6 +4,13 @@ WORKDIR /projects
 
 COPY . .
 
+RUN apt-get update && apt-get install -y --no-install-recommends \ 
+  libopenmpi-dev \
+  pip install --upgrade pip \
+  && apt-get update \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
 # Install Python packages
 RUN \
   if [ -f requirements.txt ]; \
