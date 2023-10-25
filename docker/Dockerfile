@@ -11,8 +11,5 @@ RUN \
 # Copy the content of the local src directory to the working directory
 COPY . .
 
-# Clean up the pip cache
-RUN pip cache purge
-
 # Specify the command to run on container start
 CMD ["/bin/bash"]
