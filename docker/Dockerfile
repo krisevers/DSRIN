@@ -7,6 +7,10 @@ LABEL image="DSRIN_image"
 LABEL version="0.1"
 
 RUN mkdir -p /home/dsrin 
+WORKDIR /home/dsrin
+
+COPY . .
+
 RUN apt-get -y install git 
 
 RUN conda install python=$PYTHON_VERSION
