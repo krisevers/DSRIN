@@ -32,9 +32,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install Python packages
 RUN \
   if [ -f requirements.txt ]; \
-    then pip install -r requirements.txt; \
+    then pip3 install -r requirements.txt; \
   elif [ `ls -1q *.txt | wc -l` == 1 ]; \
-    then pip install -r *.txt; \
+    then pip3 install -r *.txt; \
   fi
 
 # Specify the command to run on container start
