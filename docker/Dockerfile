@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   git \
   virtualenv \
   libopenmpi-dev \
+  && add-apt-repository -y ppa:deadsnakes/ppa \
+  && apt-get update \
   && apt-get --no-install-recommends install -y python3.9 python3-pip \
   && apt-get update \
   && apt-get clean \
