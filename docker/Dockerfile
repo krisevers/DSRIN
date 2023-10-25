@@ -1,56 +1,20 @@
-# FROM registry.access.redhat.com/ubi9/python-39:1-117.1684741281
+ARG PYTHON_VERSION=3.8
+FROM continuumio/miniconda3
 
-FROM ubuntu:18.04
-ARG DEBIAN_FRONTEND=noninteractive
+LABEL author="Kris Evers"
+LABEL email="k.evers@maastrichtuniversity.nl"
+LABEL image="DSRIN_image"
+LABEL version="0.1"
 
-WORKDIR /projects
+RUN mkdir -p /home/dsrin 
+RUN apt-get -y install git 
 
-COPY . .
+RUN conda install python=$PYTHON_VERSION
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    curl \
-    git \
-    swig \
-    wget \
-    virtualenv \
-    libgl1-mesa-dev \
-    libgl1-mesa-glx \
-    libglew-dev \
-    libc6-dev \
-    libosmesa6-dev \
-    patchelf \
-    software-properties-common \
-    gfortran \
-    && apt-get install --no-install-recommends -y file g++ gcc make gdb strace ca-certificates \
-    && add-apt-repository -y ppa:deadsnakes/ppa \
-    && apt-get update \
-    && apt-get --no-install-recommends install -y python3.8-dev python3.8 python3-pip \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN conda create --name dsrin python=$PYTHON_VERSION --file requirements.txt
 
-# install MPI
-RUN wget -q http://www.mpich.org/static/downloads/3.1.4/mpich-3.1.4.tar.gz
-RUN tar xf mpich-3.1.4.tar.gz
-WORKDIR mpich-3.1.4
-RUN ./configure --disable-fortran --enable-fast=all,O3 --prefix=/usr 
-RUN make -j$(nproc)
-RUN make install 
-RUN ldconfig
-WORKDIR /projects
-
-# setup env
-ENV VIRTUAL_ENV=/venv
-RUN virtualenv --python=python3.8 $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
-# Install Python packages
-RUN \
-  if [ -f requirements.txt ]; \
-    then pip3 install -r requirements.txt; \
-  elif [ `ls -1q *.txt | wc -l` == 1 ]; \
-    then pip3 install -r *.txt; \
-  fi
+WORKDIR /home/dsrin
 
 # Specify the command to run on container start
 CMD ["/bin/bash"]
+EXPOSE 8888
