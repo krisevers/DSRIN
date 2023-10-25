@@ -2,7 +2,7 @@ FROM registry.access.redhat.com/ubi9/python-39:1-117.1684741281
 
 # Setup environment
 ENV VIRTUAL_ENV=/venv 
-RUN virtualenv --python=python3.9 $VIRTUAL_ENV
+RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Install Python packages
