@@ -29,6 +29,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# install MPI
+RUN wget -q http://www.mpich.org/static/downloads/3.1.4/mpich-3.1.4.tar.gz
+RUN tar xf mpich-3.1.4.tar.gz
+WORKDIR mpich-3.1.4
+RUN ./configure --disable-fortran --enable-fast=all,O3 --prefix=/usr 
+RUN make -j$(nproc)
+RUN make install 
+RUN ldconfig
+WORKDIR /projects
+
+# setup env
+ENV VIRTUAL_ENV=/venv
+RUN virtualenv --python=python3.8 $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
 # Install Python packages
 RUN \
   if [ -f requirements.txt ]; \
