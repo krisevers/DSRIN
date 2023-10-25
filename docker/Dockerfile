@@ -1,4 +1,7 @@
-FROM registry.access.redhat.com/ubi9/python-39:1-117.1684741281
+# FROM registry.access.redhat.com/ubi9/python-39:1-117.1684741281
+
+FROM ubuntu:18.04
+ARG DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /projects
 
