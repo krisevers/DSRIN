@@ -8,8 +8,12 @@ WORKDIR /projects
 COPY . .
 
 RUN apt-get update && apt-get install -y --no-install-recommends \ 
+  build-essential \
+  curl \
+  git \
+  virtualenv \
   libopenmpi-dev \
-  pip install --upgrade pip \
+  && apt-get --no-install-recommends install -y python3.9 python3-pip \
   && apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
