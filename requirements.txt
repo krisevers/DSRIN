@@ -1,5 +1,5 @@
-numpy       == 1.23.5
-scipy       == 1.9.1
-matplotlib  == 3.7.3
-tqdm        == 4.62.3
-mpi4py      == 3.0.3
+numpy
+scipy
+matplotlib
+tqdm
+mpi4py
